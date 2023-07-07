@@ -19,7 +19,6 @@ export default function Home() {
           alternate_names: data.alternate_names,
           gender: data.gender,
           house: data.house,
-          colorClass: getHouseColorClass(data.house),
           dateOfBirth: data.dateOfBirth,
           ancestry: data.ancestry,
           patronus: data.patronus,
@@ -33,43 +32,54 @@ export default function Home() {
     fetchData()
   }, [])
 
-  const getHouseColorClass = (house: string) => {
-    switch (house) {
-      case 'Gryffindor':
-        return 'gryffindor'
-      case 'Slytherin':
-        return 'slytherin'
-      case 'Ravenclaw':
-        return 'ravenclaw'
-      case 'Hufflepuff':
-        return 'hufflepuff'
-      default:
-        return 'gryffindor'
-    }
-  }
-
-  const getGradientClass = (colorClass: string) => {
-    return `from-${colorClass}-50 to-${colorClass}-100`
-  }
-
   return (
     <div className="h-56 grid grid-cols-4 gap-4">
       {rows.map((item) => (
         <div
           key={item.id}
-          className={`bg-gradient-to-br ${getGradientClass(
-            item.colorClass,
-          )} m-5 rounded-xl text-center p-4 justify-center items-center`}
+          className={`bg-gradient-to-br ${
+            item.house === 'Gryffindor'
+              ? 'from-gryffindor-50 to-gryffindor-100'
+              : item.house === 'Slytherin'
+              ? 'from-slytherin-50 to-slytherin-100'
+              : item.house === 'Ravenclaw'
+              ? 'from-ravenclaw-50 to-ravenclaw-100'
+              : item.house === 'Hufflepuff'
+              ? 'from-hufflepuff-50 to-hufflepuff-100'
+              : ''
+          } m-5 rounded-xl text-center p-4 justify-center items-center`}
         >
           <Image
             alt="harry potter casting"
             src={item.image}
             width={150}
             height={150}
-            className={`mx-auto mb-3 shadow-xl shadow-${item.colorClass}-150/50 rounded-md`}
+            className={`mx-auto mb-3 shadow-xl ${
+              item.house === 'Gryffindor'
+                ? 'shadow-gryffindor-150'
+                : item.house === 'Slytherin'
+                ? 'shadow-slytherin-150'
+                : item.house === 'Ravenclaw'
+                ? 'shadow-ravenclaw-150'
+                : item.house === 'Hufflepuff'
+                ? 'shadow-hufflepuff-150'
+                : ''
+            } rounded-md`}
           />
 
-          <div className={`bg-${item.colorClass}-150 rounded-lg`}>
+          <div
+            className={`${
+              item.house === 'Gryffindor'
+                ? 'bg-gryffindor-150'
+                : item.house === 'Slytherin'
+                ? 'bg-slytherin-150'
+                : item.house === 'Ravenclaw'
+                ? 'bg-ravenclaw-150'
+                : item.house === 'Hufflepuff'
+                ? 'bg-hufflepuff-150'
+                : ''
+            } rounded-lg`}
+          >
             <h1 className="text text-xl">{item.name}</h1>
             <p>Alternate Names: {item.alternate_names}</p>
             <p>House: {item.house}</p>
