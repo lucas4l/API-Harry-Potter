@@ -33,7 +33,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="h-56 grid grid-cols-4 gap-4">
+    <div className="grid h-56 grid-cols-4 gap-4">
       {rows.map((item) => (
         <div
           key={item.id}
@@ -46,25 +46,29 @@ export default function Home() {
               ? 'from-ravenclaw-50 to-ravenclaw-100'
               : item.house === 'Hufflepuff'
               ? 'from-hufflepuff-50 to-hufflepuff-100'
-              : ''
-          } m-5 rounded-xl text-center p-4 justify-center items-center`}
+              : item.house === ''
+              ? 'from-staffhogwarts-50 to-staffhogwarts-100'
+              : item.house === ''
+          } m-5 items-center justify-center rounded-xl p-4 text-center hover:shadow-lg hover:shadow-slate-300`}
         >
           <Image
             alt="harry potter casting"
-            src={item.image}
+            src={item.image ? item.image : '/img/hogwarts.png'}
             width={150}
             height={150}
-            className={`mx-auto mb-3 shadow-xl ${
+            className={`mx-auto mb-5 shadow-xl ${
               item.house === 'Gryffindor'
-                ? 'shadow-gryffindor-150'
+                ? 'hover:shadow-gryffindor-150'
                 : item.house === 'Slytherin'
-                ? 'shadow-slytherin-150'
+                ? 'hover:shadow-slytherin-150'
                 : item.house === 'Ravenclaw'
-                ? 'shadow-ravenclaw-150'
+                ? 'hover:shadow-ravenclaw-150'
                 : item.house === 'Hufflepuff'
-                ? 'shadow-hufflepuff-150'
+                ? 'hover:shadow-hufflepuff-150'
+                : item.house === ''
+                ? 'hover:shadow-staffhogwarts-150'
                 : ''
-            } rounded-md`}
+            } h-[200px] rounded-md transition-colors`}
           />
 
           <div
@@ -77,16 +81,20 @@ export default function Home() {
                 ? 'bg-ravenclaw-150'
                 : item.house === 'Hufflepuff'
                 ? 'bg-hufflepuff-150'
-                : ''
-            } rounded-lg`}
+                : item.house === ''
+                ? 'bg-staffhogwarts-150'
+                : item.house === ''
+            } h-[200px] rounded-lg `}
           >
             <h1 className="text text-xl">{item.name}</h1>
-            <p>Alternate Names: {item.alternate_names}</p>
-            <p>House: {item.house}</p>
-            <p>Patronus: {item.patronus}</p>
-            <p>Age: {item.dateOfBirth}</p>
-            <p>Gender: {item.gender}</p>
-            <p>Actor: {item.actor}</p>
+            {item.alternate_names.length > 0 && (
+              <p>Alternate Names: {item.alternate_names}</p>
+            )}
+            {item.house && <p>House: {item.house}</p>}
+            {item.patronus && <p>Patronus: {item.patronus}</p>}
+            {item.dateOfBirth && <p>Age: {item.dateOfBirth}</p>}
+            {item.gender && <p>Gender: {item.gender}</p>}
+            {item.actor && <p>Actor: {item.actor}</p>}
           </div>
         </div>
       ))}
